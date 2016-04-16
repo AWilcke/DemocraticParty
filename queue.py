@@ -5,13 +5,15 @@ class Queue ():
 	def isEmpty(self):
 		return self.songs == []
 
-	def enqueue(self, song):
+	def enqueue(self, song, userid):
 		if self.isEmpty(): 
 			self.songs.append((0, song, []))
 		else:
 			if (self.search(song) == -1):
-				self.songs.append((0, song, []))
+				self.songs.append((1, song, [userid]))
 				self.sort()
+			else:
+				vote(song, userid, 1)
 
 	def next(self):
 		song = self.songs[0][1]
@@ -41,19 +43,18 @@ class Queue ():
 
 
 '''q = Queue()
-q.enqueue('Hello')
-q.enqueue('7 Years')
-q.enqueue('Stressed Out')
-q.enqueue('I Was Wrong')
+q.enqueue('Hello', 'user1')
+q.enqueue('7 Years', 'user1')
+q.enqueue('Stressed Out', 'user1')
+q.enqueue('I Was Wrong', 'user1')
 print q.songs
 q.vote('7 Years', 'user1', 1)
 q.vote('7 Years', 'user2', 1)
 q.vote('Hello', 'user1', 1)
 q.vote('Stressed Out', 'user2', -1)
-q.enqueue('Sorry')
+q.enqueue('Sorry', 'user1')
 q.vote('7 Years', 'user3', 1)
 q.vote('Hello', 'user3', 1)
-q.vote('Sorry', 'user3', 1)
 q.vote('Sorry', 'user4', 1)
 q.sort()
 print q.songs
