@@ -81,9 +81,9 @@ def remove_party(party, password):
 
 
 # testing
-drop_db()
+'''drop_db()
 init_db()
 insert_party('seaside', 'e302')
-insert_party('thanksbingedrinking', 'hamco')
+insert_party('thanksbingedrinking', 'hamco')'''
 
 # db.close()
