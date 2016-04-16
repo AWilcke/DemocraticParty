@@ -1,0 +1,19 @@
+{
+  "posts": [],
+  "parties": [
+    {
+      "party": "5433531675"
+    },
+    {
+      "party": "8836611389"
+    },
+    {
+      "party": "secret"
+    },
+    {
+      "secret": "bestparty",
+      "song": "DJ Khaled",
+      "upvotes": 1
+    }
+  ]
+}
