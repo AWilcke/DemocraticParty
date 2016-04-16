@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+     <link rel='stylesheet' href='/stylesheets/animate.css' />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.0.20/css/bulma.min.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+     <style type="text/css">
+		@media only screen and (min-width: 768px) {
+		    #bg1 { display: none; }
+		}
+     </style>
+  </head>
+  <body style="overflow: hidden; width: 100%;">
+    <!-- {{{body}}} -->
+
+	<center>
+		<img src="/images/key.png" class="animated once zoomIn" style="zoom: 0.3;" id="key">	 <!-- rotateOut -->
+		<p class="control">
+  			<input class="input is-primary" id="input" type="text" placeholder="Primary input" style="max-width: 80%; text-align: center;   margin-left: auto; margin-right: auto; border-color: green !important;">
+  		</p>
+	</center>
+	<div id="partyUI" style="display: none; width: 100%; height: 100%; background-color: white; top: 100%; left: 0px; position: absolute; z-index: 20;">
+		<div id="songCell" style="height: 50px; border-bottom: 1px solid grey;">
+			<p style="font-size: 1.5em; top: 10px; position: relative; left: 10px;">Major Key - DJ Khaled</p>
+			<img src="/images/fire.png" style="zoom: 0.3; top: -80px; float: right; right: 40px; position: relative;">
+		</div>
+		<div id="songCell" style="height: 50px; border-bottom: 1px solid grey;">
+			<p style="font-size: 1.5em; top: 10px; position: relative; left: 10px;">Major Key - DJ Khaled</p>
+			<img src="/images/fire.png" style="zoom: 0.3; top: -80px; float: right; right: 40px; position: relative;">
+		</div>
+		<div id="songCell" style="height: 50px; border-bottom: 1px solid grey;">
+			<p style="font-size: 1.5em; top: 10px; position: relative; left: 10px;">Major Key - DJ Khaled</p>
+			<img src="/images/fire.png" style="zoom: 0.3; top: -80px; float: right; right: 40px; position: relative;">
+		</div>
+		<div id="songCell" style="height: 50px; border-bottom: 1px solid grey;">
+			<p style="font-size: 1.5em; top: 10px; position: relative; left: 10px;">Major Key - DJ Khaled</p>
+			<img src="/images/fire.png" style="zoom: 0.3; top: -80px; float: right; right: 40px; position: relative;">
+		</div>
+
+		<!-- <div id="playedSongsButton" style="background-color: red; width: 50px; height: 50px; border-radius: 40px; bottom: 200px; position: absolute;">
+			<i class="fa fa-history fa-2x" aria-hidden="true" style="color: white; left: 13px; top: 11px; position: relative;"></i>
+		</div> -->
+		
+	</div>
+	
+	<img src="/images/background.png" style="position: absolute !important; top: 0px; z-index: -1; width: 100%;" id="bg1">
+	<img src="/images/background2.png" style="position: absolute !important; top: 0px; z-index: -1; opacity: 0;" id="bg2">
+
+	<a class="button is-info is-outlined" onclick="PartyEntered()">Outlined</a>
+
+	<!-- Javascript -->
+	<script type="text/javascript">
+		function PartyEntered () {
+			$('#key').removeClass();
+			$('#key').addClass('animated rotateOut');
+			$('#bg2').fadeTo(500, 1, function () {
+			   
+		    });
+		    $('#input').fadeOut(500, function(){
+		    	$('#key').hide();
+		    	$('#partyUI').show();
+		   		$("#partyUI").animate({ 
+			        top: "0px",
+			      }, 500 );
+		    });
+
+		} 
+		
+
+		$.fn.extend({
+		    animateCss: function (animationName) {
+		        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+		        $(this).addClass('animated ' + animationName).one(animationEnd, function() {
+		            $(this).removeClass('animated ' + animationName);
+		        });
+		    }
+		});
+	</script>
+	<center>
+	<br><br>
+	<br><br>
+	<br><br><br><br>
+	<br><br><br><br>
+	<br><br><br><br>
+
+			<a href="/create" style="font-size: 20px; bottom: 0px; margin-left: auto; margin-right: auto; top: 500px; color: white;"><u>Create a party</u></a>
+	</center>
+
+  </body>
+</html>
