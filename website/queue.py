@@ -7,7 +7,7 @@ class Queue ():
 	def isEmpty(self):
 		return self.songs == []
 
-	def enqueue(self, song, userid):
+	def enqueue(self, song, userid, url):
 		if self.isEmpty(): 
 			self.songs.append((0, song, []))
 		else:
@@ -37,6 +37,7 @@ class Queue ():
 				return i
 		return -1
 
+	# votes on song -> pass in +1 or -1 (up v down vote)
 	def vote(self, song, userid, num): 
 		index = [b for (a, b, c) in self.songs].index(song)
 		if (not userid in self.songs[index][2]):

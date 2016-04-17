@@ -51,12 +51,14 @@ def insert_party(party, password):
     count += 1
     print party
 
-#def get_party(party, password):
-#    db = connect_db()
-#    db.cursor().execute('''SELECT partyid, party, password, songid, songs''' + str(count) + ''' FROM parties WHERE party=? AND password=?''', (party, password))
-#    db.close()
-#    return db.cursor.fetchone()
+# gets party 
+def get_party(party, password):
+    db = connect_db()
+    db.cursor().execute('''SELECT party, password''' + str(count) + ''' FROM parties WHERE party=? AND password=?''', (party, password))
+    db.close()
+    return db.cursor.fetchone()
 
+# updates songs from queue into database
 def update_songs(party, password, queue):
     global count
     db = connect_db()
@@ -75,12 +77,14 @@ def update_songs(party, password, queue):
     db.commit()
     db.close()
 
+# removes party 
 def remove_party(party, password):
     db = connect_db()
     db.cursor().execute('''DELETE FROM parties WHERE party=? AND password=?''', (party, password))
     db.commit() 
     db.close()
 
+# prints table 
 def print_table():
     db = connect_db()
     db.cursor().execute('''SELECT party FROM parties''')
