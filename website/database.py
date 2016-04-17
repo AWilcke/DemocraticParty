@@ -3,7 +3,7 @@ import sqlite3
 from queue import *
 
 count = 0
-queues = {}
+queues = []
 
 def connect_db():
     return sqlite3.connect('mydb')
@@ -42,7 +42,7 @@ def insert_party(party, password):
     db = connect_db()
     # create queue and add to end of list 
     q = Queue()
-    queues[q] = count
+    queues.append((count, q))
     # create table for songs 
     songs_db = update_songs(party, password, q)
     db.cursor().execute('''INSERT INTO parties VALUES(?,?,?,?)''', (count, party, password, songs_db))
@@ -60,18 +60,18 @@ def insert_party(party, password):
 def update_songs(party, password, queue):
     global count
     db = connect_db()
-    index = queues.get(queue)
+    index = [b for (a, b) in queues].index(queue)
     # create new table & swap with existing table
     db.cursor().execute('''DROP TABLE IF EXISTS songs''' + str(index))
     db.cursor().execute('''
         CREATE TABLE songs''' + str(index) + '''(songid INTEGER PRIMARY KEY autoincrement, song TEXT not null,
-                votes INTEGER, users TEXT not null)''')
+                votes INTEGER, users TEXT not null, url TEXT not null)''')
     if (not queue.isEmpty()):
         for tup in queue:
             string = ''
             for word in tup[2]:
                 string = string + ' ' + word
-            db.cursor().execute('''INSERT INTO songs VALUES(,?,?,?)''', (tup[0], tup[1], string))
+            db.cursor().execute('''INSERT INTO songs VALUES(,?,?,?)''', (tup[0], tup[1], string, tup[3]))
     db.commit()
     db.close()
 
@@ -89,11 +89,30 @@ def print_table():
         console.log(row)
     db.close()
     return rows
-
+    
 # testing
 '''drop_db()
 init_db()
 insert_party('seaside', 'e302')
-insert_party('thanksbingedrinking', 'hamco')'''
+insert_party('thanksbingedrinking', 'hamco')
+insert_party('fling', 'chance')
+insert_party('heyday', '2017')
+for i in range(0, len(queues), 1):
+    print queues[i][0]
+    print queues[i][1]
+# queue stuff
+q.enqueue('Hello', 'user1')
+q.enqueue('7 Years', 'user1')
+q.enqueue('Stressed Out', 'user1')
+q.enqueue('I Was Wrong', 'user1')
+q.vote('7 Years', 'user1', 1)
+q.vote('7 Years', 'user2', 1)
+q.vote('Hello', 'user1', 1)
+q.vote('Stressed Out', 'user2', -1)
+q.enqueue('Sorry', 'user1')
+q.vote('7 Years', 'user3', 1)
+q.vote('Hello', 'user3', 1)
+q.vote('Sorry', 'user4', 1)
+q.sort()'''
 
 # db.close()
