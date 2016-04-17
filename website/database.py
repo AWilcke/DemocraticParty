@@ -16,12 +16,9 @@ def init_db():
     db.cursor().execute('''DROP TABLE IF EXISTS songs''' + str(count))
     db.cursor().execute('''
         CREATE TABLE songs''' + str(count) +  ''' (songid INTEGER PRIMARY KEY autoincrement, 
-        song TEXT not null, votes INTEGER, users TEXT not null)''')
+        song TEXT not null, votes INTEGER, users TEXT not null, url TEXT not null)''')
     db.cursor().execute('''DROP TABLE IF EXISTS parties''')
-    db.cursor().execute('''
-        CREATE TABLE parties(partyid INTEGER PRIMARY KEY autoincrement, 
-        party TEXT not null, password TEXT not null, songid INTEGER, 
-        FOREIGN KEY(songid) references songs(songid))''')
+    db.cursor().execute('''CREATE TABLE parties(partyid INT, party TEXT not null, password TEXT not null, songid INT, FOREIGN KEY(songid) references songs(songid))''')
     db.commit()
     db.close()
     count += 1
@@ -49,14 +46,16 @@ def insert_party(party, password):
     db.commit()
     db.close()
     count += 1
-    print party
 
 # gets party 
 def get_party(party, password):
     db = connect_db()
-    db.cursor().execute('''SELECT party, password''' + str(count) + ''' FROM parties WHERE party=? AND password=?''', (party, password))
-    db.close()
-    return db.cursor.fetchone()
+    db.cursor().execute('''SELECT partyid FROM parties''')
+    print queues
+    for row in db.cursor().fetchall():
+        if (row[1] == party): 
+            return row[0]
+    return 1
 
 # updates songs from queue into database
 def update_songs(party, password, queue):
@@ -66,14 +65,19 @@ def update_songs(party, password, queue):
     # create new table & swap with existing table
     db.cursor().execute('''DROP TABLE IF EXISTS songs''' + str(index))
     db.cursor().execute('''
-        CREATE TABLE songs''' + str(index) + '''(songid INTEGER PRIMARY KEY autoincrement, song TEXT not null,
+        CREATE TABLE songs''' + str(index) + '''(songid INTEGER, song TEXT not null,
                 votes INTEGER, users TEXT not null, url TEXT not null)''')
     if (not queue.isEmpty()):
-        for tup in queue:
+        print 'queue is quey'
+        print queue
+        curr_index = 0
+        for song in queue.songs:
+            print song
             string = ''
-            for word in tup[2]:
+            for word in song[2]:
                 string = string + ' ' + word
-            db.cursor().execute('''INSERT INTO songs VALUES(,?,?,?)''', (tup[0], tup[1], string, tup[3]))
+            db.cursor().execute('''INSERT INTO songs''' + str(index) + ''' VALUES(?,?,?,?,?)''', (0, song[1], song[0], string, song[3]))
+            curr_index = curr_index + 1
     db.commit()
     db.close()
 
@@ -95,7 +99,8 @@ def print_table():
     return rows
     
 # testing
-'''drop_db()
+'''
+drop_db()
 init_db()
 insert_party('seaside', 'e302')
 insert_party('thanksbingedrinking', 'hamco')
@@ -117,6 +122,6 @@ q.enqueue('Sorry', 'user1')
 q.vote('7 Years', 'user3', 1)
 q.vote('Hello', 'user3', 1)
 q.vote('Sorry', 'user4', 1)
-q.sort()'''
-
+q.sort()
+'''
 # db.close()

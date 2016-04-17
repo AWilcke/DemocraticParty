@@ -40,8 +40,29 @@ def get_db():
 
 @app.before_request
 def before_request():
-    init_db()
     g.db = connect_db()
+    global queues
+    init_db()
+    insert_party('baba', 'bexe')
+    par = get_party('baba', 'bexe')
+    print 'par is:'
+    print par
+    print queues
+    q = [b for (a, b) in queues if (a == par)][0]
+    q.enqueue('Hello', 'user1', 'n')
+    q.enqueue('7 Years', 'user1', 'm')
+    q.enqueue('Stressed Out', 'user1', 'n')
+    q.enqueue('I Was Wrong', 'user1', 'b')
+    q.vote('7 Years', 'user1', 1)
+    q.vote('7 Years', 'user2', 1)
+    q.vote('Hello', 'user1', 1)
+    q.vote('Stressed Out', 'user2', -1)
+    q.enqueue('Sorry', 'user1', 'e')
+    q.vote('7 Years', 'user3', 1)
+    q.vote('Hello', 'user3', 1)
+    q.vote('Sorry', 'user4', 1)
+    q.sort()
+    update_songs('baba', 'bexe', q)
 
 @app.teardown_request
 def teardown_request(exception):
@@ -51,7 +72,8 @@ def teardown_request(exception):
         
 @app.route('/')
 def show_entries():
-    entries = print_table()
+    curr = g.db.cursor().execute('select party, partyid from parties')
+    entries = [dict(party=row[1], partyid=row[0]) for row in cur.fetchall()]
     return render_template('show_entries.html', entries=entries)
 
 ############################################
