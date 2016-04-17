@@ -1,5 +1,6 @@
 # all the imports
 import sqlite3
+from database import *
 from contextlib import closing
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash
@@ -15,13 +16,6 @@ app.config.update(dict(
     PASSWORD='default'
 ))
 app.config.from_object(__name__)
-
-def init_db():
-    with closing(connect_db()) as db:
-        with app.open_resource('schema.sql', mode='r') as f:
-            db.cursor().executescript(f.read())
-        db.commit()
-
 
 def connect_db():
     rv = sqlite3.connect(app.config['DATABASE'])

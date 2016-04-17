@@ -1,3 +1,5 @@
+## queue 
+
 class Queue (): 
 	def __init__(self):
 		self.songs = []
@@ -10,7 +12,7 @@ class Queue ():
 			self.songs.append((0, song, []))
 		else:
 			if (self.search(song) == -1):
-				self.songs.append((1, song, [userid]))
+				self.songs.append((1, song, [userid], url))
 				self.sort()
 			else:
 				vote(song, userid, 1)
@@ -39,8 +41,11 @@ class Queue ():
 		index = [b for (a, b, c) in self.songs].index(song)
 		if (not userid in self.songs[index][2]):
 			self.songs[index][2].append(userid)
-			self.songs[index] = (self.songs[index][0] + num, self.songs[index][1], self.songs[index][2])
+			self.songs[index] = (self.songs[index][0] + num, self.songs[index][1], self.songs[index][2], self.songs[index][3])
 
+
+
+## testing
 
 '''q = Queue()
 q.enqueue('Hello', 'user1')
