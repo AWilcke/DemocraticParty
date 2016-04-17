@@ -56,6 +56,24 @@ def show_entries():
     console.log(entries)
     return render_template('show_entries.html', entries=entries)
 
+############################################
+#
+# new party -> call insert_party(party, password)
+#
+# song requested -> 
+#   call get_party(party, password)
+#   find appropriate queue from global queues array in database
+#   add song to queue -> queue.enqueue(song, userid, url)
+#   call update_songs(party, password, queue)
+#
+# vote -> 
+#   call get_party(party, password)
+#   find appropriate queue from global queues array in database
+#   vote on song in queue -> queue.vote(song, userid, num)
+#   call update_songs(party, password, queue)
+#   
+############################################
+
 if __name__ == '__main__':
     app.run()
     
