@@ -16,7 +16,8 @@ def init_db():
     db.cursor().execute('''DROP TABLE IF EXISTS songs''' + str(count))
     db.cursor().execute('''
         CREATE TABLE songs''' + str(count) +  ''' (songid INTEGER PRIMARY KEY autoincrement, 
-        song TEXT not null, votes INTEGER, users TEXT not null, url TEXT not null)''')
+        song TEXT not null, votes INTEGER, users TEXT not null)''')
+    db.cursor().execute('''DROP TABLE IF EXISTS parties''')
     db.cursor().execute('''
         CREATE TABLE parties(partyid INTEGER PRIMARY KEY autoincrement, 
         party TEXT not null, password TEXT not null, songid INTEGER, 
@@ -24,6 +25,7 @@ def init_db():
     db.commit()
     db.close()
     count += 1
+    print 'created table'
 
 # delete database
 def drop_db():
@@ -91,8 +93,7 @@ def print_table():
         console.log(row)
     db.close()
     return rows
-
-
+    
 # testing
 '''drop_db()
 init_db()

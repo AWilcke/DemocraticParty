@@ -51,9 +51,7 @@ def teardown_request(exception):
         
 @app.route('/')
 def show_entries():
-    cur = g.db.execute('select party from parties')
-    entries = [dict(party=row[1]) for row in cur.fetchall()]
-    console.log(entries)
+    entries = print_table()
     return render_template('show_entries.html', entries=entries)
 
 ############################################
