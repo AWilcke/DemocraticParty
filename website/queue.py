@@ -47,7 +47,7 @@ class Queue ():
 
 ## testing
 
-'''q = Queue()
+q = Queue()
 q.enqueue('Hello', 'user1')
 q.enqueue('7 Years', 'user1')
 q.enqueue('Stressed Out', 'user1')
@@ -67,4 +67,4 @@ q.dequeue()
 print q.songs
 print q.size()
 print q.next()
-print q.songs'''
+print q.songs
