@@ -3,7 +3,7 @@ import sqlite3
 from queue import *
 
 count = 0
-queues = {}
+queues = []
 
 def connect_db():
     return sqlite3.connect('mydb')
@@ -40,7 +40,7 @@ def insert_party(party, password):
     db = connect_db()
     # create queue and add to end of list 
     q = Queue()
-    queues[q] = count
+    queues.append((count, q))
     # create table for songs 
     songs_db = update_songs(party, password, q)
     db.cursor().execute('''INSERT INTO parties VALUES(?,?,?,?)''', (count, party, password, songs_db))
@@ -58,7 +58,7 @@ def insert_party(party, password):
 def update_songs(party, password, queue):
     global count
     db = connect_db()
-    index = queues.get(queue)
+    index = [b for (a, b) in queues].index(queue)
     # create new table & swap with existing table
     db.cursor().execute('''DROP TABLE IF EXISTS songs''' + str(index))
     db.cursor().execute('''
@@ -90,14 +90,15 @@ def print_table():
 
 
 # testing
-
 '''drop_db()
 init_db()
 insert_party('seaside', 'e302')
 insert_party('thanksbingedrinking', 'hamco')
 insert_party('fling', 'chance')
 insert_party('heyday', '2017')
-print queues.items()
+for i in range(0, len(queues), 1):
+    print queues[i][0]
+    print queues[i][1]
 # queue stuff
 q.enqueue('Hello', 'user1')
 q.enqueue('7 Years', 'user1')
